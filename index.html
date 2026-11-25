@@ -451,35 +451,75 @@
       });
     });
 
-    // Independent BOOK action -> shows booking confirmation view (ready for backend/email/SMS hookup)
-    document.getElementById("bookBtn").addEventListener("click", async () => {
-      const q = await calculateQuote();
-      if (!q) return;
-
-      const refCode = "OCX-" + Math.floor(1000 + Math.random() * 9000);
+    function showConfirmation(q, refCode, paid) {
       document.getElementById("refCodeOut").textContent = refCode;
       document.getElementById("confPickup").textContent = q.pickup;
-      document.getElementById("confPickupNotes").textContent = q.pickupNotes ? `Instructions: ${q.pickupNotes}` : "Standard kerbside/door collection";
+      document.getElementById("confPickupNotes").textContent = q.pickupNotes ? `Instructions: ${q.pickupNotes}` : "Standard collection";
       document.getElementById("confDropoff").textContent = q.dropoff;
       document.getElementById("confDropoffNotes").textContent = q.dropoffNotes ? `Instructions: ${q.dropoffNotes}` : "Standard delivery";
       document.getElementById("confContact").textContent = q.contact || "your provided details";
-      document.getElementById("confPrice").textContent = fmtGBP(q.incVat);
+      document.getElementById("confPrice").textContent = `${fmtGBP(q.incVat)} (${paid ? "Paid" : "Pending"})`;
       document.getElementById("confVehicle").textContent = `${q.vehicle}, ~${q.estMiles} mi`;
 
       const waSummary = encodeURIComponent(
-        `Hi Oclex, my booking ref is ${refCode} (${q.vehicle}, ${q.pickup} → ${q.dropoff}, ${fmtGBP(q.incVat)} inc. VAT).`
+        `Hi Oclex, my booking ref is ${refCode} (${q.vehicle}, ${q.pickup} -> ${q.dropoff}, ${fmtGBP(q.incVat)} inc. VAT).`
       );
       document.getElementById("sendConfirmationWaLink").href = `https://wa.me/${WHATSAPP_NUMBER}?text=${waSummary}`;
 
       document.getElementById("bookingFormView").classList.add("hidden");
       document.getElementById("bookingSuccessView").classList.remove("hidden");
       document.getElementById("bookingSuccessView").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    document.getElementById("bookBtn").addEventListener("click", async () => {
+      const q = await calculateQuote();
+      if (!q) return;
+
+      const statusEl = document.getElementById("statusMsg");
+      const refCode = "OCX-" + Math.floor(1000 + Math.random() * 9000);
+      localStorage.setItem(`oclex_booking_${refCode}`, JSON.stringify(q));
+
+      statusEl.textContent = "Redirecting to secure Stripe payment...";
+      try {
+        const res = await fetch("/api/create-checkout-session", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            refCode,
+            amountIncVat: q.incVat,
+            vehicle: q.vehicle,
+            pickup: q.pickup,
+            dropoff: q.dropoff,
+            pickupNotes: q.pickupNotes,
+            dropoffNotes: q.dropoffNotes,
+            contact: q.contact
+          })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.url) throw new Error(data.error || "Could not start payment");
+        window.location.href = data.url;
+      } catch (err) {
+        statusEl.textContent = err.message;
+      }
     });
 
-    document.getElementById("newBookingBtn").addEventListener("click", () => {
-      document.getElementById("bookingSuccessView").classList.add("hidden");
-      document.getElementById("bookingFormView").classList.remove("hidden");
-    });
+    // Restore confirmation screen when redirected back after Stripe payment
+    (function checkStripeReturn() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("paid") === "1") {
+        const ref = params.get("ref") || "OCX-0000";
+        const saved = JSON.parse(localStorage.getItem(`oclex_booking_${ref}`) || "null");
+        if (saved) {
+          showConfirmation(saved, ref, true);
+        } else {
+          document.getElementById("refCodeOut").textContent = ref;
+          document.getElementById("bookingFormView").classList.add("hidden");
+          document.getElementById("bookingSuccessView").classList.remove("hidden");
+        }
+      } else if (params.get("cancelled") === "1") {
+        document.getElementById("statusMsg").textContent = "Payment was cancelled. You can adjust your quote or try again.";
+      }
+    })();
 
     // Independent WHATSAPP action -> opens WhatsApp chat directly
     document.getElementById("whatsappBtn").addEventListener("click", async () => {
