@@ -1,544 +1,840 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en-GB">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OCLEX | Same-Day Courier & Express Delivery UK</title>
+  <title>OCLEX Courier | Dedicated Same-Day & Next-Day UK Delivery</title>
+  <meta name="description" content="Instant UK dedicated courier quotes and same-day delivery. Direct door-to-door transport from Car to Luton Van." />
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: {
+            royal: {
+              DEFAULT: '#1D4ED8',
+              hover: '#1E40AF',
+              light: '#EFF6FF',
+              border: '#BFDBFE'
+            }
+          }
+        }
+      }
+    };
+  </script>
   <style>
-    body { font-family: 'Inter', sans-serif; }
+    body {
+      background-color: #FAFAFA;
+      background-image: radial-gradient(#E4E4E7 0.75px, transparent 0.75px);
+      background-size: 20px 20px;
+      color: #09090B;
+      -webkit-font-smoothing: antialiased;
+    }
+    .vehicle-card.active {
+      border-color: #1D4ED8;
+      background-color: #EFF6FF;
+      box-shadow: 0 0 0 1px #1D4ED8;
+    }
   </style>
 </head>
-<body class="bg-white text-zinc-950 antialiased">
+<body class="min-h-screen flex flex-col">
 
-  <!-- TOP NAVIGATION -->
-  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-zinc-200">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
-      <a href="#" class="flex items-center" aria-label="OCLEX Home">
-        <svg class="h-7 sm:h-8 w-auto" viewBox="0 0 330 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M32 10H18C10.268 10 4 16.268 4 24V36C4 43.732 10.268 50 18 50H32V40H18C15.7909 40 14 38.2091 14 36V24C14 21.7909 15.7909 20 18 20H32V10Z" fill="#09090B"/>
-          <path d="M36 10H48C55.732 10 62 16.268 62 24V27.5H52V24C52 21.7909 50.2091 20 48 20H36V10Z" fill="#0B4FBE"/>
-          <path d="M62 32.5V36C62 43.732 55.732 50 48 50H36V40H48C50.2091 40 52 38.2091 52 36V32.5H62Z" fill="#0B4FBE"/>
-          <path d="M114 10H88C80.268 10 74 16.268 74 24V36C74 43.732 80.268 50 88 50H114V40H88C85.7909 40 84 38.2091 84 36V24C84 21.7909 85.7909 20 88 20H114V10Z" fill="#09090B"/>
-          <path d="M128 10H138V40H168V50H128V10Z" fill="#09090B"/>
-          <path d="M180 10H222V20H190V25H218V35H190V40H222V50H180V10Z" fill="#09090B"/>
-          <path d="M234 10H247L267 30L247 50H234L254 30L234 10Z" fill="#09090B"/>
-          <path d="M286 10H299L279 27L272 21L286 10Z" fill="#0B4FBE"/>
-          <path d="M279 33L299 50H286L272 39L279 33Z" fill="#0B4FBE"/>
+  <!-- Top Contact Bar -->
+  <div class="bg-zinc-950 text-white text-xs border-b border-zinc-800">
+    <div class="max-w-3xl mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-4">
+        <a href="tel:01615454540" class="inline-flex items-center gap-1.5 font-medium hover:text-blue-400 transition">
+          <svg class="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+          </svg>
+          <span>Call: 0161 545 45 40</span>
+        </a>
+        <a href="https://wa.me/447940000420" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 font-medium text-emerald-400 hover:text-emerald-300 transition">
+          <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12.031 2c-5.516 0-9.969 4.453-9.969 9.969 0 1.758.459 3.475 1.331 4.988L2 22l5.188-1.359a9.927 9.927 0 004.843 1.258h.004c5.515 0 9.969-4.453 9.969-9.969A9.969 9.969 0 0012.031 2zm5.822 14.129c-.244.688-1.422 1.316-1.974 1.398-.508.076-1.148.108-1.852-.116-.427-.136-.976-.318-1.678-.621-2.953-1.275-4.881-4.248-5.028-4.444-.147-.196-1.2-1.596-1.2-3.045 0-1.449.76-2.161 1.03-2.456.27-.295.589-.369.785-.369.196 0 .393.002.564.01.181.009.423-.069.662.505.244.589.834 2.038.908 2.185.074.147.123.319.025.515-.098.196-.147.319-.295.491-.147.172-.31.384-.442.515-.147.147-.301.307-.129.602.172.295.763 1.259 1.639 2.04 1.126 1.004 2.075 1.315 2.37 1.462.295.147.467.123.639-.074.172-.196.737-.859.934-1.154.196-.295.393-.246.663-.147.27.098 1.719.811 2.014.958.295.147.491.221.564.344.074.123.074.712-.17 1.4z" />
+          </svg>
+          <span>Chat on WhatsApp</span>
+        </a>
+      </div>
+      <a href="mailto:courier@oclex.co.uk" class="inline-flex items-center gap-1.5 text-zinc-300 hover:text-white transition">
+        <svg class="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
         </svg>
+        <span>courier@oclex.co.uk</span>
       </a>
+    </div>
+  </div>
 
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-700">
-        <a href="#vehicles" class="hover:text-[#0B4FBE] transition">Vehicles</a>
-        <a href="#quote" class="hover:text-[#0B4FBE] transition">Instant Quote</a>
-        <a href="#contact" class="hover:text-[#0B4FBE] transition">Contact</a>
-      </nav>
-
-      <a href="#quote" class="bg-[#0B4FBE] hover:bg-blue-800 text-white text-sm font-semibold px-4 sm:px-5 py-2.5 rounded-lg transition">
-        Book Now
+  <!-- Main Brand Header -->
+  <header class="bg-white border-b border-zinc-200 sticky top-0 z-30">
+    <div class="max-w-3xl mx-auto px-4 py-3.5 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-lg bg-zinc-950 flex items-center justify-center text-white font-extrabold text-sm tracking-tight">
+          OX
+        </div>
+        <div>
+          <span class="font-extrabold text-lg tracking-tight text-zinc-950">OCLEX</span>
+          <span class="ml-1.5 text-[11px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded bg-royal-light text-royal">UK Direct</span>
+        </div>
       </a>
+      <div class="text-right">
+        <span class="text-xs font-medium text-zinc-500 block">Dedicated Vehicles</span>
+        <span class="text-[11px] text-zinc-400">Door-to-Door · No Co-Loading</span>
+      </div>
     </div>
   </header>
 
-  <!-- HERO -->
-  <section class="py-10 sm:py-14 bg-gradient-to-b from-zinc-50 to-white border-b border-zinc-100">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-      <div class="max-w-2xl space-y-3">
-        <span class="inline-block bg-blue-50 text-[#0B4FBE] text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
-          UK-Wide Same-Day Delivery
-        </span>
-        <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-950 leading-[1.12]">
-          Dedicated Same-Day Courier Across the UK.
-        </h1>
-        <p class="text-base sm:text-lg text-zinc-600">
-          Direct, dedicated vehicles—no hubs, <strong class="font-extrabold text-zinc-950">no co-loading</strong>, and zero delays.
-        </p>
-      </div>
-      <div class="flex flex-wrap gap-3">
-        <a href="https://wa.me/447000000000?text=Hi%20Oclex,%20I%20need%20an%20urgent%20same-day%20delivery%20quote." target="_blank"
-           class="bg-[#25D366] hover:bg-[#1ebe5d] text-zinc-950 font-bold px-5 py-3 rounded-lg transition shadow-sm text-sm sm:text-base">
-          WhatsApp Dispatch
-        </a>
-        <a href="tel:+447000000000"
-           class="border-2 border-zinc-950 text-zinc-950 hover:bg-zinc-100 font-semibold px-5 py-3 rounded-lg transition text-sm sm:text-base">
-          Call 24/7 Desk
-        </a>
-      </div>
-    </div>
-  </section>
+  <!-- Main Content -->
+  <main class="flex-1 max-w-3xl w-full mx-auto px-4 py-6 sm:py-8">
 
-  <!-- SELECTABLE VEHICLES + INSTANT QUOTE & BOOKING -->
-  <section id="quote" class="py-10 sm:py-14 max-w-6xl mx-auto px-4 sm:px-6">
-    <div id="vehicles" class="mb-6">
-      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">1. Choose Your Vehicle</h2>
-      <p class="text-xs sm:text-sm text-zinc-500 mt-1">Tap a vehicle to select it. Add your photos into <code class="bg-zinc-100 px-1.5 py-0.5 rounded">assets/</code> when ready.</p>
-    </div>
-
-    <!-- 5 SELECTABLE VEHICLE CARDS -->
-    <div id="vehicleGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 mb-8"></div>
-
-    <!-- BOOKING FORM VIEW -->
-    <div id="bookingFormView" class="grid lg:grid-cols-12 gap-6 sm:gap-8 items-start bg-zinc-50 p-4 sm:p-8 rounded-2xl border border-zinc-200">
-      <div class="lg:col-span-7 space-y-5">
-        <h3 class="text-xl font-bold">2. Collection & Delivery</h3>
-
-        <!-- Collection -->
-        <div class="bg-white p-4 rounded-xl border border-zinc-200 space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-extrabold uppercase tracking-wider text-[#0B4FBE]">Pickup / Collection</span>
-          </div>
-          <div class="relative">
-            <label for="pickup" class="block text-xs font-semibold text-zinc-600 mb-1">Postcode or Area</label>
-            <input type="text" id="pickup" autocomplete="off" placeholder="e.g. M50 3AG or Salford"
-                   class="w-full px-4 py-3 text-base rounded-lg border border-zinc-300 bg-zinc-50 focus:bg-white focus:outline-none focus:border-[#0B4FBE]" />
-            <div id="pickupSuggestions"
-                 class="hidden absolute z-30 left-0 right-0 mt-1 bg-white border border-zinc-200 rounded-xl shadow-lg max-h-56 overflow-y-auto divide-y divide-zinc-100"></div>
-          </div>
-          <div>
-            <label for="pickupNotes" class="block text-xs font-semibold text-zinc-600 mb-1">Collection Instructions (Optional)</label>
-            <input type="text" id="pickupNotes" placeholder="e.g. Gate B, ask for Alex, call on arrival"
-                   class="w-full px-4 py-2.5 text-sm rounded-lg border border-zinc-300 bg-zinc-50 focus:bg-white focus:outline-none focus:border-[#0B4FBE]" />
-          </div>
-        </div>
-
-        <!-- Delivery -->
-        <div class="bg-white p-4 rounded-xl border border-zinc-200 space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-extrabold uppercase tracking-wider text-zinc-900">Drop-off / Delivery</span>
-          </div>
-          <div class="relative">
-            <label for="dropoff" class="block text-xs font-semibold text-zinc-600 mb-1">Postcode or Area</label>
-            <input type="text" id="dropoff" autocomplete="off" placeholder="e.g. EC1A 1BB or London"
-                   class="w-full px-4 py-3 text-base rounded-lg border border-zinc-300 bg-zinc-50 focus:bg-white focus:outline-none focus:border-[#0B4FBE]" />
-            <div id="dropoffSuggestions"
-                 class="hidden absolute z-30 left-0 right-0 mt-1 bg-white border border-zinc-200 rounded-xl shadow-lg max-h-56 overflow-y-auto divide-y divide-zinc-100"></div>
-          </div>
-          <div>
-            <label for="dropoffNotes" class="block text-xs font-semibold text-zinc-600 mb-1">Delivery Instructions (Optional)</label>
-            <input type="text" id="dropoffNotes" placeholder="e.g. Reception desk, open until 5pm"
-                   class="w-full px-4 py-2.5 text-sm rounded-lg border border-zinc-300 bg-zinc-50 focus:bg-white focus:outline-none focus:border-[#0B4FBE]" />
-          </div>
-        </div>
-
-        <!-- Minimal Contact + Speed -->
-        <div class="bg-white p-4 rounded-xl border border-zinc-200 grid sm:grid-cols-2 gap-3">
-          <div>
-            <label for="contactInfo" class="block text-xs font-semibold text-zinc-600 mb-1">Mobile or Email (for updates)</label>
-            <input type="text" id="contactInfo" placeholder="e.g. 07700 900000 or you@company.co.uk"
-                   class="w-full px-4 py-2.5 text-sm rounded-lg border border-zinc-300 bg-zinc-50 focus:bg-white focus:outline-none focus:border-[#0B4FBE]" />
-          </div>
-          <div>
-            <label for="urgency" class="block text-xs font-semibold text-zinc-600 mb-1">When do you need it?</label>
-            <select id="urgency" class="w-full px-4 py-2.5 text-sm rounded-lg border border-zinc-300 bg-zinc-50 focus:bg-white focus:outline-none focus:border-[#0B4FBE]">
-              <option value="standard">Standard Same-Day</option>
-              <option value="evening_weekend">Evening / Weekend (+15%)</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Independent Book & WhatsApp Actions -->
-        <div class="flex flex-col sm:flex-row gap-3 pt-1">
-          <button type="button" id="bookBtn"
-                  class="flex-1 bg-[#0B4FBE] hover:bg-blue-800 text-white font-bold py-3.5 px-6 rounded-xl transition shadow-sm text-center">
-            Book Delivery
-          </button>
-          <button type="button" id="whatsappBtn"
-                  class="sm:w-auto bg-[#25D366] hover:bg-[#1ebe5d] text-zinc-950 font-bold py-3.5 px-6 rounded-xl transition shadow-sm text-center">
-            WhatsApp Instead
-          </button>
-        </div>
-        <p id="statusMsg" class="text-sm text-red-600 font-medium min-h-[1.25rem]"></p>
-      </div>
-
-      <!-- LIVE PRICE BREAKDOWN (INC. VAT) -->
-      <div class="lg:col-span-5 bg-white p-5 sm:p-6 rounded-xl border border-zinc-200 shadow-sm space-y-4">
-        <div class="flex items-center justify-between border-b border-zinc-100 pb-3">
-          <span class="text-xs font-bold uppercase tracking-wider text-zinc-500">Live Price</span>
-          <span id="selectedVehicleLabel" class="text-sm font-bold text-[#0B4FBE]">Small Van</span>
-        </div>
-
-        <div class="space-y-2 text-sm">
-          <div class="flex justify-between text-zinc-600">
-            <span>Est. Mileage</span>
-            <span id="milesOut" class="font-semibold text-zinc-950">—</span>
-          </div>
-          <div class="flex justify-between text-zinc-600">
-            <span>Subtotal (ex. VAT)</span>
-            <span id="exVatOut" class="font-semibold text-zinc-950">£0.00</span>
-          </div>
-          <div class="flex justify-between text-zinc-600">
-            <span>VAT (20%)</span>
-            <span id="vatOut" class="font-semibold text-zinc-950">£0.00</span>
-          </div>
-        </div>
-
-        <div class="border-t border-zinc-200 pt-4 flex items-baseline justify-between">
-          <span class="font-bold text-zinc-950">Total (inc. VAT)</span>
-          <span id="incVatOut" class="text-3xl font-extrabold text-[#0B4FBE]">£0.00</span>
-        </div>
-
-        <p class="text-[11px] text-zinc-400 leading-relaxed">
-          Guide price based on UK postcode distance × 1.25 road factor. Final price confirmed once pickup/drop-off access is checked.
-        </p>
-      </div>
-    </div>
-
-    <!-- BOOKING SUCCESS / CONFIRMATION VIEW (Shown after clicking Book Delivery) -->
-    <div id="bookingSuccessView" class="hidden bg-zinc-50 p-5 sm:p-8 rounded-2xl border border-zinc-200 space-y-6">
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-zinc-200 pb-5">
-        <div>
-          <span class="inline-block bg-emerald-100 text-emerald-900 text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full">
-            Booking Request Received
-          </span>
-          <h3 class="text-2xl sm:text-3xl font-extrabold mt-2">Ref: <span id="refCodeOut" class="text-[#0B4FBE]">OCX-0000</span></h3>
-          <p class="text-sm text-zinc-600 mt-1">We're assigning your dedicated driver and will send confirmation & live updates.</p>
-        </div>
-        <button type="button" id="newBookingBtn"
-                class="self-start sm:self-auto text-sm font-semibold px-4 py-2 rounded-lg border border-zinc-300 bg-white hover:bg-zinc-100 transition">
-          + New Booking
-        </button>
-      </div>
-
-      <!-- Clear Route & Instructions Summary -->
-      <div class="grid sm:grid-cols-2 gap-4 text-sm">
-        <div class="bg-white p-4 rounded-xl border border-zinc-200 space-y-1">
-          <span class="text-xs font-bold uppercase text-[#0B4FBE]">Collection</span>
-          <p id="confPickup" class="font-bold text-zinc-950 text-base"></p>
-          <p id="confPickupNotes" class="text-zinc-600"></p>
-        </div>
-        <div class="bg-white p-4 rounded-xl border border-zinc-200 space-y-1">
-          <span class="text-xs font-bold uppercase text-zinc-900">Delivery</span>
-          <p id="confDropoff" class="font-bold text-zinc-950 text-base"></p>
-          <p id="confDropoffNotes" class="text-zinc-600"></p>
-        </div>
-      </div>
-
-      <!-- What Happens Next: Tracking & Updates -->
-      <div class="bg-white p-5 rounded-xl border border-zinc-200 space-y-3">
-        <h4 class="font-bold text-base">What Happens Next</h4>
-        <ul class="space-y-2 text-sm text-zinc-700">
-          <li><strong>1. Confirmation:</strong> Sent to <span id="confContact" class="font-semibold text-zinc-950">your contact</span> (or reply on WhatsApp if you prefer instant chat).</li>
-          <li><strong>2. Driver & Tracking Updates:</strong> Dispatch will message you when your driver is en route to collect, upon pickup, and on delivery with Proof of Delivery (POD).</li>
-          <li><strong>3. Total Price:</strong> <span id="confPrice" class="font-bold text-[#0B4FBE]">£0.00</span> inc. VAT (<span id="confVehicle"></span>).</li>
-        </ul>
-      </div>
-
-      <div class="flex flex-wrap gap-3">
-        <a id="sendConfirmationWaLink" href="#" target="_blank"
-           class="bg-[#25D366] hover:bg-[#1ebe5d] text-zinc-950 font-bold px-5 py-3 rounded-xl transition text-sm">
-          Copy / Send Booking Ref on WhatsApp
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer id="contact" class="bg-zinc-950 text-zinc-400 py-10 text-sm">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+    <!-- Cancelled Payment Notice (Hidden unless ?cancelled=1) -->
+    <div id="cancelledBanner" class="hidden mb-5 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900 flex items-start justify-between gap-3">
       <div>
-        <span class="text-white font-bold text-lg tracking-wide">OCLEX</span>
-        <p class="mt-1">Same-Day Courier & Express Logistics UK • info@oclex.co.uk</p>
-        <p class="text-xs text-zinc-500 mt-1">© 2026 Oclex Ltd. All rights reserved.</p>
+        <p class="font-semibold">Payment wasn't completed</p>
+        <p class="text-xs text-amber-800 mt-0.5">Your route, quote, and details are still saved below whenever you're ready to complete your booking.</p>
       </div>
-      <div class="flex flex-wrap items-center gap-6">
-        <span class="px-3 py-1 bg-zinc-900 border border-zinc-800 rounded text-xs font-semibold text-zinc-300">
-          ✓ CX Approved Carrier
-        </span>
-        <a href="/installation" class="text-xs text-zinc-500 hover:text-zinc-300 underline">
-          CCTV Installation
+      <button type="button" onclick="document.getElementById('cancelledBanner').classList.add('hidden')" class="text-xs font-semibold text-amber-800 hover:text-amber-950">Dismiss</button>
+    </div>
+
+    <!-- BOOKING VIEW -->
+    <div id="bookingView">
+      <div class="mb-5">
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-950">Instant UK Courier Quote</h1>
+        <p class="text-sm text-zinc-600 mt-1">Enter your collection and delivery postcodes for an instant fixed price.</p>
+      </div>
+
+      <form id="bookingForm" class="space-y-5" novalidate>
+
+        <!-- 1. Route Section -->
+        <section class="bg-white rounded-2xl border border-zinc-200/90 shadow-sm p-4 sm:p-5">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-zinc-500">1. Collection & Delivery</h2>
+            <span id="distanceBadge" class="hidden text-xs font-semibold px-2.5 py-0.5 rounded-full bg-zinc-100 text-zinc-800"></span>
+          </div>
+
+          <div class="space-y-2.5 relative">
+            <!-- Pickup -->
+            <div class="relative">
+              <label for="pickupInput" class="block text-xs font-semibold text-zinc-700 mb-1">Collection Postcode <span class="text-royal">*</span></label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-zinc-950"></span>
+                <input
+                  id="pickupInput"
+                  type="text"
+                  autocomplete="off"
+                  placeholder="e.g. M1 1AE"
+                  class="w-full pl-9 pr-3 py-2.5 text-sm font-medium bg-white border border-zinc-300 rounded-xl focus:outline-none focus:border-royal focus:ring-2 focus:ring-royal/15 placeholder:text-zinc-300 uppercase"
+                />
+              </div>
+              <div id="pickupSuggestions" class="hidden absolute left-0 right-0 mt-1 bg-white border border-zinc-200 rounded-xl shadow-lg z-20 max-h-48 overflow-y-auto"></div>
+              <p id="pickupResolved" class="text-[11px] text-zinc-500 mt-1 min-h-[16px]"></p>
+            </div>
+
+            <!-- Swap Button -->
+            <div class="flex items-center justify-center -my-1">
+              <button
+                type="button"
+                id="swapBtn"
+                title="Swap collection and delivery postcodes"
+                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-zinc-200 bg-zinc-50 hover:bg-zinc-100 text-xs font-medium text-zinc-600 transition"
+              >
+                <svg class="w-3.5 h-3.5 text-royal" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+                </svg>
+                <span>Swap</span>
+              </button>
+            </div>
+
+            <!-- Dropoff -->
+            <div class="relative">
+              <label for="dropoffInput" class="block text-xs font-semibold text-zinc-700 mb-1">Delivery Postcode <span class="text-royal">*</span></label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-sm bg-royal"></span>
+                <input
+                  id="dropoffInput"
+                  type="text"
+                  autocomplete="off"
+                  placeholder="e.g. W12 7GF"
+                  class="w-full pl-9 pr-3 py-2.5 text-sm font-medium bg-white border border-zinc-300 rounded-xl focus:outline-none focus:border-royal focus:ring-2 focus:ring-royal/15 placeholder:text-zinc-300 uppercase"
+                />
+              </div>
+              <div id="dropoffSuggestions" class="hidden absolute left-0 right-0 mt-1 bg-white border border-zinc-200 rounded-xl shadow-lg z-20 max-h-48 overflow-y-auto"></div>
+              <p id="dropoffResolved" class="text-[11px] text-zinc-500 mt-1 min-h-[16px]"></p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. Vehicle Selection -->
+        <section class="bg-white rounded-2xl border border-zinc-200/90 shadow-sm p-4 sm:p-5">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-zinc-500">2. Select Dedicated Vehicle</h2>
+            <span class="text-[11px] text-zinc-400">Tap to compare</span>
+          </div>
+
+          <div id="vehicleGrid" class="grid grid-cols-2 sm:grid-cols-5 gap-2.5"></div>
+        </section>
+
+        <!-- 3. Timing & Shipment Details -->
+        <section class="bg-white rounded-2xl border border-zinc-200/90 shadow-sm p-4 sm:p-5 space-y-4">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-zinc-500">3. Timing & Parcel Details</h2>
+
+          <!-- Urgency -->
+          <div>
+            <label for="urgencySelect" class="block text-xs font-semibold text-zinc-700 mb-1">When do you need it?</label>
+            <select
+              id="urgencySelect"
+              class="w-full px-3 py-2.5 text-sm font-medium bg-white border border-zinc-300 rounded-xl focus:outline-none focus:border-royal focus:ring-2 focus:ring-royal/15"
+            >
+              <option value="asap">ASAP — Urgent Dispatch</option>
+              <option value="same_day" selected>Same Day</option>
+              <option value="next_day">Next Day</option>
+            </select>
+            <p id="urgencyHint" class="text-xs text-zinc-500 mt-1.5">
+              Collected and delivered today. Best booked before 15:00 for long-distance UK routes; subject to driver availability.
+            </p>
+          </div>
+
+          <!-- Parcel Description & Approx. Weight/Size -->
+          <div>
+            <label for="parcelDetails" class="block text-xs font-semibold text-zinc-700 mb-1">
+              Parcel Description & Approx. Weight / Size <span class="text-royal">*</span>
+            </label>
+            <input
+              id="parcelDetails"
+              type="text"
+              placeholder="e.g. 2 boxed monitors, ~18kg, fits on back seat"
+              class="w-full px-3 py-2.5 text-sm bg-white border border-zinc-300 rounded-xl focus:outline-none focus:border-royal focus:ring-2 focus:ring-royal/15 placeholder:text-zinc-300"
+            />
+          </div>
+
+          <!-- Optional Notes -->
+          <div>
+            <label for="bookingNotes" class="block text-xs font-semibold text-zinc-700 mb-1">
+              Collection / Delivery Notes <span class="text-zinc-400 font-normal">(optional)</span>
+            </label>
+            <input
+              id="bookingNotes"
+              type="text"
+              placeholder="e.g. Contact name on site, loading bay, floor number"
+              class="w-full px-3 py-2.5 text-sm bg-white border border-zinc-300 rounded-xl focus:outline-none focus:border-royal focus:ring-2 focus:ring-royal/15 placeholder:text-zinc-300"
+            />
+          </div>
+        </section>
+
+        <!-- 4. Your Contact Details -->
+        <section class="bg-white rounded-2xl border border-zinc-200/90 shadow-sm p-4 sm:p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-zinc-500">4. Your Contact Details</h2>
+            <span class="text-[11px] text-zinc-400">Required for driver updates</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label for="customerName" class="block text-xs font-semibold text-zinc-700 mb-1">
+                Full Name <span class="text-royal">*</span>
+              </label>
+              <input
+                id="customerName"
+                type="text"
+                autocomplete="name"
+                placeholder="Your full name"
+                class="w-full px-3 py-2.5 text-sm bg-white border border-zinc-300 rounded-xl focus:outline-none focus:border-royal focus:ring-2 focus:ring-royal/15 placeholder:text-zinc-300"
+              />
+            </div>
+
+            <div>
+              <label for="customerContact" class="block text-xs font-semibold text-zinc-700 mb-1">
+                Mobile Number or Email <span class="text-royal">*</span>
+              </label>
+              <input
+                id="customerContact"
+                type="text"
+                autocomplete="tel email"
+                placeholder="07... or email address"
+                class="w-full px-3 py-2.5 text-sm bg-white border border-zinc-300 rounded-xl focus:outline-none focus:border-royal focus:ring-2 focus:ring-royal/15 placeholder:text-zinc-300"
+              />
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. Total Price, T&Cs & Checkout CTA -->
+        <section class="bg-white rounded-2xl border border-zinc-200 shadow-sm p-4 sm:p-5 space-y-4">
+          <div class="flex items-baseline justify-between border-b border-zinc-100 pb-3.5">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-zinc-500 block">Total Price</span>
+              <span id="quoteSummaryLine" class="text-xs text-zinc-500">Enter collection & delivery postcodes</span>
+            </div>
+            <div class="text-right">
+              <span id="totalPriceDisplay" class="text-3xl font-extrabold tracking-tight text-zinc-950">£—</span>
+              <span class="block text-[11px] font-medium text-zinc-500">Total price</span>
+            </div>
+          </div>
+
+          <!-- Terms & Conditions Checkbox + Plain-English Summary -->
+          <div class="rounded-xl bg-zinc-50 border border-zinc-200/80 p-3">
+            <label class="flex items-start gap-2.5 cursor-pointer select-none">
+              <input
+                id="termsCheckbox"
+                type="checkbox"
+                class="mt-0.5 h-4 w-4 rounded border-zinc-300 text-royal focus:ring-royal cursor-pointer"
+              />
+              <span class="text-xs text-zinc-700 leading-relaxed">
+                I agree to the
+                <button type="button" id="openTermsBtn" class="font-semibold text-royal underline hover:text-royal-hover">Terms &amp; Conditions</button>.
+                <span class="text-zinc-500 block mt-0.5">
+                  Bookings are subject to driver availability (full refund if unfulfilled), standard loading waiting times, accurate weight/size declaration, weather/traffic conditions, and legal goods only.
+                </span>
+              </span>
+            </label>
+          </div>
+
+          <!-- Validation / API Error Message -->
+          <p id="formError" class="hidden text-xs font-medium text-red-600 bg-red-50 border border-red-200 rounded-xl px-3.5 py-2.5"></p>
+
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            id="bookBtn"
+            class="w-full py-3.5 px-5 rounded-xl bg-royal hover:bg-royal-hover text-white font-bold text-sm sm:text-base shadow-sm transition flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            <span id="bookBtnText">Book Delivery</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </button>
+
+          <p class="text-[11px] text-center text-zinc-400">
+            Secure card payment via Stripe · Instant booking reference · Direct dispatch support
+          </p>
+        </section>
+      </form>
+    </div>
+
+    <!-- CONFIRMATION VIEW (Shown after ?paid=1) -->
+    <div id="confirmationView" class="hidden">
+      <div class="bg-white rounded-2xl border border-zinc-200 shadow-sm p-5 sm:p-7 space-y-6">
+        <div class="flex flex-wrap items-start justify-between gap-3 border-b border-zinc-100 pb-5">
+          <div>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              PAYMENT CONFIRMED
+            </span>
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-zinc-950 mt-2">
+              Ref: <span id="confRef" class="text-royal">OCX-0000</span>
+            </h1>
+            <p class="text-sm text-zinc-600 mt-1">We're assigning your dedicated driver and will send live updates shortly.</p>
+          </div>
+          <button
+            type="button"
+            id="newBookingBtn"
+            class="px-3.5 py-2 rounded-xl border border-zinc-200 hover:bg-zinc-50 text-xs font-semibold text-zinc-700 transition"
+          >
+            + New Booking
+          </button>
+        </div>
+
+        <!-- Route Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="rounded-xl border border-zinc-200 p-4 bg-zinc-50/50">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-royal">Collection</span>
+            <p id="confPickup" class="text-sm font-bold text-zinc-900 mt-1">—</p>
+          </div>
+          <div class="rounded-xl border border-zinc-200 p-4 bg-zinc-50/50">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-royal">Delivery</span>
+            <p id="confDropoff" class="text-sm font-bold text-zinc-900 mt-1">—</p>
+          </div>
+        </div>
+
+        <!-- Summary Box -->
+        <div class="rounded-xl border border-zinc-200 p-4 space-y-2 text-sm">
+          <div class="flex justify-between">
+            <span class="text-zinc-500">Customer</span>
+            <span id="confCustomer" class="font-semibold text-zinc-900">—</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-zinc-500">Vehicle & Timing</span>
+            <span id="confVehicleTiming" class="font-semibold text-zinc-900">—</span>
+          </div>
+          <div class="flex justify-between gap-4">
+            <span class="text-zinc-500 shrink-0">Parcel</span>
+            <span id="confParcel" class="font-medium text-zinc-800 text-right">—</span>
+          </div>
+          <div id="confNotesRow" class="hidden flex justify-between gap-4">
+            <span class="text-zinc-500 shrink-0">Notes</span>
+            <span id="confNotes" class="font-medium text-zinc-800 text-right">—</span>
+          </div>
+          <div class="flex justify-between border-t border-zinc-100 pt-2 mt-2">
+            <span class="font-semibold text-zinc-700">Total Paid</span>
+            <span id="confTotal" class="font-extrabold text-royal">£0.00 Total price</span>
+          </div>
+        </div>
+
+        <!-- What Happens Next -->
+        <div class="rounded-xl bg-zinc-50 border border-zinc-200/80 p-4 space-y-2 text-xs text-zinc-600 leading-relaxed">
+          <h2 class="text-sm font-bold text-zinc-900">What Happens Next</h2>
+          <p><strong class="text-zinc-900">1. Dispatch Confirmation:</strong> Our team is reviewing your booking and assigning your nearest dedicated vehicle.</p>
+          <p><strong class="text-zinc-900">2. Live Driver Updates:</strong> Tap below to message dispatch on WhatsApp for instant updates and live driver location sharing once en route.</p>
+          <p><strong class="text-zinc-900">3. Proof of Delivery:</strong> You'll receive confirmation as soon as your consignment is delivered.</p>
+        </div>
+
+        <!-- WhatsApp CTA -->
+        <a
+          id="whatsappShareBtn"
+          href="https://wa.me/447940000420"
+          target="_blank"
+          rel="noopener"
+          class="w-full py-3.5 px-5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-sm transition flex items-center justify-center gap-2"
+        >
+          <span>Send Booking Ref on WhatsApp for Live Updates</span>
         </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-zinc-200 mt-10">
+    <div class="max-w-3xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-zinc-500">
+      <span>© <span id="yearSpan"></span> OCLEX Courier · Dedicated UK Transport</span>
+      <div class="flex items-center gap-4">
+        <a href="tel:01615454540" class="hover:text-zinc-900">0161 545 45 40</a>
+        <a href="mailto:courier@oclex.co.uk" class="hover:text-zinc-900">courier@oclex.co.uk</a>
+        <button type="button" onclick="openTermsModal()" class="underline hover:text-zinc-900">Terms &amp; Conditions</button>
       </div>
     </div>
   </footer>
 
-  <script>
-    const VAT_RATE = 0.20;
-    const ROAD_FACTOR = 1.25;
-    const WHATSAPP_NUMBER = "447000000000"; // Replace with your UK WhatsApp number
+  <!-- Terms & Conditions Modal -->
+  <div id="termsModal" class="hidden fixed inset-0 z-50 bg-zinc-950/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full max-h-[85vh] flex flex-col shadow-xl border border-zinc-200 overflow-hidden">
+      <div class="px-5 py-4 border-b border-zinc-200 flex items-center justify-between">
+        <h3 class="font-extrabold text-base text-zinc-950">OCLEX Courier — Terms &amp; Conditions</h3>
+        <button type="button" onclick="closeTermsModal()" class="text-zinc-400 hover:text-zinc-800 text-lg font-bold px-2">&times;</button>
+      </div>
+      <div class="p-5 overflow-y-auto space-y-3.5 text-xs text-zinc-600 leading-relaxed">
+        <p><strong class="text-zinc-900">1. Booking &amp; Vehicle Availability:</strong> Online payment reserves a booking request and does not guarantee immediate vehicle allocation until confirmed by OCLEX dispatch. If we are unable to assign a suitable driver within your requested window, we will notify you promptly and issue a 100% full refund.</p>
+        <p><strong class="text-zinc-900">2. Accurate Parcel Description, Weight &amp; Dimensions:</strong> You must declare the true nature, size, and weight of your goods when booking. If goods exceed the capacity or weight limit of the booked vehicle, the driver may refuse collection or require an upgrade fee to a larger vehicle before loading.</p>
+        <p><strong class="text-zinc-900">3. Loading, Unloading &amp; Waiting Time:</strong> Standard quotes cover kerbside/ground-floor loading and unloading with up to 15 minutes free waiting time at collection and 15 minutes at delivery. Additional waiting time beyond 15 minutes may be billed at £15 per 30 minutes (or part thereof).</p>
+        <p><strong class="text-zinc-900">4. Weather, Traffic &amp; Force Majeure:</strong> While we operate dedicated direct point-to-point transport, estimated transit times are not guaranteed and OCLEX is not liable for delays caused by severe weather, road closures, accidents, ferry/tunnel disruptions, or events beyond our reasonable control.</p>
+        <p><strong class="text-zinc-900">5. Prohibited &amp; Illegal Goods:</strong> You warrant that your consignment contains no illegal, stolen, hazardous, explosive, flammable, live, or prohibited items under UK law. You agree to indemnify OCLEX against all claims, penalties, or losses resulting from undeclared or unlawful cargo.</p>
+        <p><strong class="text-zinc-900">6. Packaging &amp; Liability:</strong> Goods must be securely packaged for road transit. Unless additional transit insurance is agreed in writing prior to collection, liability for loss or damage is limited to standard UK courier terms (up to £10,000 Goods in Transit cover subject to policy terms, excluding fragile/unpacked items).</p>
+        <p><strong class="text-zinc-900">7. Pricing:</strong> OCLEX is not VAT registered; all prices displayed are final total prices with no VAT added.</p>
+      </div>
+      <div class="px-5 py-3.5 border-t border-zinc-200 bg-zinc-50 flex items-center justify-end gap-2.5">
+        <button type="button" onclick="closeTermsModal()" class="px-4 py-2 rounded-xl border border-zinc-300 text-xs font-semibold text-zinc-700 hover:bg-zinc-100">Close</button>
+        <button type="button" onclick="acceptTermsAndClose()" class="px-4 py-2 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold">I Agree &amp; Close</button>
+      </div>
+    </div>
+  </div>
 
+  <script>
+    document.getElementById('yearSpan').textContent = new Date().getFullYear();
+
+    // Vehicle Fleet & Pricing (Temporary baseline rates until oclex.co.uk domain cutover)
     const VEHICLES = [
-      { id: "car", name: "Car", subtitle: "Small parcels & docs", specs: "Up to 150kg • Boot/seats", image: "assets/car.jpg", minFareExVat: 25, perMileExVat: 1.10 },
-      { id: "small_van", name: "Small Van", subtitle: "Caddy / Berlingo", specs: "Up to 600kg • 1 Euro pallet", image: "assets/small-van.jpg", minFareExVat: 35, perMileExVat: 1.35 },
-      { id: "swb", name: "SWB Van", subtitle: "Short Wheelbase Transit", specs: "Up to 900kg • 2 Euro pallets", image: "assets/swb-van.jpg", minFareExVat: 45, perMileExVat: 1.60 },
-      { id: "lwb", name: "LWB Van", subtitle: "Long Wheelbase Sprinter", specs: "Up to 1,200kg • 3–4 pallets", image: "assets/lwb-van.jpg", minFareExVat: 60, perMileExVat: 1.95 },
-      { id: "luton", name: "Luton Van", subtitle: "Box body (tail lift)", specs: "Up to 1,000kg • Bulky/pallets", image: "assets/luton-van.jpg", minFareExVat: 80, perMileExVat: 2.35 }
+      { id: 'car', name: 'Car', capacity: 'Up to 250kg', minFare: 25, perMile: 1.10, img: '/car.jpg' },
+      { id: 'small-van', name: 'Small Van', capacity: '1 Pallet · 400kg', minFare: 35, perMile: 1.35, img: '/small-van.jpg' },
+      { id: 'swb-van', name: 'SWB Van', capacity: '2 Pallets · 800kg', minFare: 45, perMile: 1.60, img: '/swb-van.jpg' },
+      { id: 'lwb-van', name: 'LWB Van', capacity: '3 Pallets · 1100kg', minFare: 60, perMile: 1.95, img: '/lwb-van.jpg' },
+      { id: 'luton-van', name: 'Luton Van', capacity: '4-5 Pallets · Tail Lift', minFare: 80, perMile: 2.35, img: '/luton-van.jpg' }
     ];
 
-    let selectedVehicle = VEHICLES[1];
-    let lastQuote = null;
-    const coordsCache = { pickup: null, dropoff: null };
+    const URGENCY_LABELS = {
+      asap: 'ASAP — Urgent Dispatch',
+      same_day: 'Same Day',
+      next_day: 'Next Day'
+    };
 
-    const grid = document.getElementById("vehicleGrid");
+    const URGENCY_HINTS = {
+      asap: 'Immediate dispatch as soon as the nearest driver is assigned (typically 30–90 mins collection in major UK cities, subject to availability).',
+      same_day: 'Collected and delivered today. Best booked before 15:00 for long-distance UK routes; subject to driver availability.',
+      next_day: 'Dedicated next-working-day collection and direct delivery at your preferred morning or afternoon slot.'
+    };
+
+    const ROAD_FACTOR = 1.25;
+    const STORAGE_KEY_PREFIX = 'oclex_booking_';
+    const DRAFT_KEY = 'oclex_draft_form_v2';
+
+    let state = {
+      pickup: null,   // { postcode, label, lat, lng }
+      dropoff: null,  // { postcode, label, lat, lng }
+      vehicleId: 'small-van',
+      miles: 0,
+      totalPrice: 0
+    };
+
+    // Render Vehicle Cards
     function renderVehicles() {
-      grid.innerHTML = "";
-      VEHICLES.forEach((v) => {
-        const active = v.id === selectedVehicle.id;
-        const card = document.createElement("button");
-        card.type = "button";
-        card.className = `text-left rounded-xl border-2 p-3 transition flex flex-col justify-between ${
-          active ? "border-[#0B4FBE] bg-blue-50/40 ring-2 ring-[#0B4FBE]/20" : "border-zinc-200 bg-white hover:border-zinc-400"
-        }`;
-        card.innerHTML = `
-          <div>
-            <div class="aspect-[16/10] w-full rounded-lg bg-zinc-100 overflow-hidden mb-2.5 flex items-center justify-center text-xs text-zinc-400">
-              <img src="${v.image}" alt="${v.name}" class="w-full h-full object-cover"
-                   onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
-              <span style="display:none;" class="px-2 text-center">${v.name} photo<br>(${v.image})</span>
+      const grid = document.getElementById('vehicleGrid');
+      grid.innerHTML = VEHICLES.map(v => {
+        const active = v.id === state.vehicleId;
+        return `
+          <button
+            type="button"
+            onclick="selectVehicle('${v.id}')"
+            class="vehicle-card ${active ? 'active' : ''} text-left rounded-xl border border-zinc-200 bg-white p-2.5 transition hover:border-zinc-400 flex flex-col justify-between"
+          >
+            <img src="${v.img}" alt="${v.name}" class="w-full h-12 object-contain mb-2 rounded" onerror="this.style.display='none'" />
+            <div>
+              <div class="font-bold text-xs text-zinc-950">${v.name}</div>
+              <div class="text-[10px] text-zinc-500 mt-0.5 leading-tight">${v.capacity}</div>
             </div>
-            <div class="flex items-center justify-between gap-2">
-              <span class="font-bold text-base text-zinc-950">${v.name}</span>
-              <span class="text-[11px] font-bold px-2 py-0.5 rounded-full ${
-                active ? "bg-[#0B4FBE] text-white" : "bg-zinc-100 text-zinc-600"
-              }">${active ? "Selected" : "Select"}</span>
-            </div>
-            <p class="text-xs text-zinc-500 mt-0.5">${v.subtitle}</p>
-          </div>
-          <p class="text-[11px] text-zinc-600 mt-2.5 pt-2 border-t border-zinc-100">${v.specs}</p>
+          </button>
         `;
-        card.addEventListener("click", () => {
-          selectedVehicle = v;
-          document.getElementById("selectedVehicleLabel").textContent = v.name;
-          renderVehicles();
-          if (coordsCache.pickup && coordsCache.dropoff) calculateQuote();
-        });
-        grid.appendChild(card);
-      });
+      }).join('');
     }
 
-    async function fetchSuggestions(query) {
-      const q = query.trim();
-      if (q.length < 2) return [];
-      const compact = q.replace(/\s+/g, "");
-      const looksLikeFullPostcode = /^[A-Z]{1,2}\d[A-Z\d]?\d[A-Z]{2}$/i.test(compact);
+    function selectVehicle(id) {
+      state.vehicleId = id;
+      renderVehicles();
+      calculateQuote();
+      saveDraft();
+    }
 
-      if (looksLikeFullPostcode) {
-        const res = await fetch(`https://api.postcodes.io/postcodes/${encodeURIComponent(compact)}`);
-        if (!res.ok) return [];
-        const data = await res.json();
-        const r = data.result;
-        const areaLine = [r.parish, r.admin_ward, r.admin_district].filter(Boolean).join(", ");
-        return [{
-          label: `${areaLine || r.postcode} (${r.postcode})`,
-          value: `${r.postcode}${areaLine ? " - " + areaLine : ""}`,
-          lat: r.latitude,
-          lon: r.longitude
-        }];
+    // Distance & Price Calculation
+    function haversineMiles(lat1, lon1, lat2, lon2) {
+      const toRad = d => (d * Math.PI) / 180;
+      const R = 3958.8;
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a = Math.sin(dLat / 2) ** 2 +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    function calculateQuote() {
+      const vehicle = VEHICLES.find(v => v.id === state.vehicleId) || VEHICLES[1];
+      const totalEl = document.getElementById('totalPriceDisplay');
+      const summaryEl = document.getElementById('quoteSummaryLine');
+      const badgeEl = document.getElementById('distanceBadge');
+
+      if (!state.pickup || !state.dropoff) {
+        state.miles = 0;
+        state.totalPrice = 0;
+        totalEl.textContent = '£—';
+        summaryEl.textContent = 'Enter collection & delivery postcodes';
+        badgeEl.classList.add('hidden');
+        return false;
       }
 
-      const res = await fetch(`https://api.postcodes.io/postcodes?q=${encodeURIComponent(q)}&limit=6`);
-      if (!res.ok) return [];
-      const data = await res.json();
-      if (!Array.isArray(data.result)) return [];
-      return data.result.map((r) => {
-        const parts = [r.parish, r.admin_ward, r.admin_district, r.postcode].filter(Boolean);
-        return { label: parts.join(", "), value: parts.join(", "), lat: r.latitude, lon: r.longitude };
-      });
+      const straightMiles = haversineMiles(state.pickup.lat, state.pickup.lng, state.dropoff.lat, state.dropoff.lng);
+      const estMiles = Math.max(1, Math.round(straightMiles * ROAD_FACTOR));
+      const rawPrice = Math.max(vehicle.minFare, estMiles * vehicle.perMile);
+      const finalPrice = Math.round(rawPrice);
+
+      state.miles = estMiles;
+      state.totalPrice = finalPrice;
+
+      totalEl.textContent = `£${finalPrice.toFixed(2)}`;
+      summaryEl.textContent = `${vehicle.name} · ~${estMiles} miles direct`;
+      badgeEl.textContent = `~${estMiles} mi`;
+      badgeEl.classList.remove('hidden');
+      return true;
     }
 
-    function setupAddressAutocomplete(inputId, boxId, cacheKey) {
-      const input = document.getElementById(inputId);
-      const box = document.getElementById(boxId);
+    // Postcodes.io Autocomplete & Lookup
+    async function lookupPostcode(query) {
+      const clean = query.trim().replace(/\s+/g, '');
+      if (clean.length < 2) return [];
+      try {
+        const res = await fetch(`https://api.postcodes.io/postcodes?q=${encodeURIComponent(query.trim())}&limit=6`);
+        const data = await res.json();
+        if (data.status === 200 && Array.isArray(data.result)) {
+          return data.result.map(item => ({
+            postcode: item.postcode,
+            label: [item.admin_ward, item.admin_district, item.postcode].filter(Boolean).join(', '),
+            lat: item.latitude,
+            lng: item.longitude
+          }));
+        }
+      } catch (e) {}
+      return [];
+    }
+
+    function setupPostcodeField(type) {
+      const input = document.getElementById(`${type}Input`);
+      const box = document.getElementById(`${type}Suggestions`);
+      const resolved = document.getElementById(`${type}Resolved`);
       let timer = null;
 
-      input.addEventListener("input", () => {
-        coordsCache[cacheKey] = null;
+      input.addEventListener('input', () => {
+        state[type] = null;
+        resolved.textContent = '';
+        calculateQuote();
         clearTimeout(timer);
-        const q = input.value.trim();
-        if (q.length < 2) {
-          box.classList.add("hidden");
+
+        const val = input.value.trim();
+        if (val.length < 2) {
+          box.classList.add('hidden');
           return;
         }
+
         timer = setTimeout(async () => {
-          const items = await fetchSuggestions(q);
-          if (!items.length) {
-            box.classList.add("hidden");
+          const results = await lookupPostcode(val);
+          if (!results.length) {
+            box.classList.add('hidden');
             return;
           }
-          box.innerHTML = "";
-          items.forEach((item) => {
-            const btn = document.createElement("button");
-            btn.type = "button";
-            btn.className = "w-full text-left px-3.5 py-2.5 text-sm hover:bg-blue-50 transition";
-            btn.innerHTML = `<div class="font-medium text-zinc-900">${item.label}</div><div class="text-[11px] text-[#0B4FBE]">Tap to select</div>`;
-            btn.addEventListener("click", () => {
-              input.value = item.value;
-              coordsCache[cacheKey] = { lat: item.lat, lon: item.lon };
-              box.classList.add("hidden");
-              if (coordsCache.pickup && coordsCache.dropoff) calculateQuote();
+          // Auto-match exact full postcode if typed completely
+          const exact = results.find(r => r.postcode.replace(/\s+/g, '') === val.replace(/\s+/g, '').toUpperCase());
+          if (exact) {
+            applyLocation(type, exact);
+          }
+
+          box.innerHTML = results.map((r, idx) => `
+            <button type="button" data-idx="${idx}" class="w-full text-left px-3.5 py-2.5 text-xs hover:bg-royal-light border-b last:border-b-0 border-zinc-100 flex items-center justify-between">
+              <span class="font-bold text-zinc-900">${r.postcode}</span>
+              <span class="text-zinc-500 truncate ml-2">${r.label}</span>
+            </button>
+          `).join('');
+          box.classList.remove('hidden');
+
+          box.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', () => {
+              const chosen = results[Number(btn.dataset.idx)];
+              applyLocation(type, chosen);
+              box.classList.add('hidden');
             });
-            box.appendChild(btn);
           });
-          box.classList.remove("hidden");
         }, 220);
       });
 
-      document.addEventListener("click", (e) => {
-        if (!input.contains(e.target) && !box.contains(e.target)) box.classList.add("hidden");
+      input.addEventListener('blur', () => {
+        setTimeout(() => box.classList.add('hidden'), 180);
       });
     }
 
-    async function resolveCoords(text, cacheKey) {
-      if (coordsCache[cacheKey]) return coordsCache[cacheKey];
-      const matches = await fetchSuggestions(text);
-      if (!matches.length) throw new Error(`Could not find UK location: "${text}"`);
-      coordsCache[cacheKey] = { lat: matches[0].lat, lon: matches[0].lon };
-      return coordsCache[cacheKey];
+    function applyLocation(type, loc) {
+      state[type] = loc;
+      document.getElementById(`${type}Input`).value = loc.postcode;
+      document.getElementById(`${type}Resolved`).textContent = loc.label;
+      calculateQuote();
+      saveDraft();
     }
 
-    function distanceMiles(a, b) {
-      const R = 3958.8;
-      const toRad = (d) => (d * Math.PI) / 180;
-      const dLat = toRad(b.lat - a.lat);
-      const dLon = toRad(b.lon - a.lon);
-      const h = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLon / 2) ** 2;
-      return 2 * R * Math.asin(Math.sqrt(h));
-    }
+    // Swap Pickup & Dropoff
+    document.getElementById('swapBtn').addEventListener('click', () => {
+      const tempLoc = state.pickup;
+      const tempInput = document.getElementById('pickupInput').value;
+      const tempResolved = document.getElementById('pickupResolved').textContent;
 
-    const fmtGBP = (n) => `£${n.toFixed(2)}`;
+      state.pickup = state.dropoff;
+      document.getElementById('pickupInput').value = document.getElementById('dropoffInput').value;
+      document.getElementById('pickupResolved').textContent = document.getElementById('dropoffResolved').textContent;
 
-    async function calculateQuote() {
-      const pickup = document.getElementById("pickup").value.trim();
-      const dropoff = document.getElementById("dropoff").value.trim();
-      const urgency = document.getElementById("urgency").value;
-      const statusEl = document.getElementById("statusMsg");
+      state.dropoff = tempLoc;
+      document.getElementById('dropoffInput').value = tempInput;
+      document.getElementById('dropoffResolved').textContent = tempResolved;
 
-      if (!pickup || !dropoff) {
-        statusEl.textContent = "Please enter both collection and delivery locations.";
-        return null;
-      } 
-
-      statusEl.textContent = "";
-      try {
-        const [p1, p2] = await Promise.all([resolveCoords(pickup, "pickup"), resolveCoords(dropoff, "dropoff")]);
-        const estMiles = Math.max(1, Math.round(distanceMiles(p1, p2) * ROAD_FACTOR));
-
-        let exVat = Math.max(selectedVehicle.minFareExVat, estMiles * selectedVehicle.perMileExVat);
-        if (urgency === "evening_weekend") exVat *= 1.15;
-
-        const vat = exVat * VAT_RATE;
-        const incVat = exVat + vat;
-
-        document.getElementById("milesOut").textContent = `~${estMiles} miles`;
-        document.getElementById("exVatOut").textContent = fmtGBP(exVat);
-        document.getElementById("vatOut").textContent = fmtGBP(vat);
-        document.getElementById("incVatOut").textContent = fmtGBP(incVat);
-
-        lastQuote = {
-          pickup,
-          dropoff,
-          pickupNotes: document.getElementById("pickupNotes").value.trim(),
-          dropoffNotes: document.getElementById("dropoffNotes").value.trim(),
-          contact: document.getElementById("contactInfo").value.trim(),
-          vehicle: selectedVehicle.name,
-          estMiles,
-          exVat,
-          vat,
-          incVat
-        };
-        return lastQuote;
-      } catch (err) {
-        statusEl.textContent = err.message || "Could not look up one of those locations.";
-        return null;
-      }
-    }
-
-    ["pickup", "dropoff", "urgency"].forEach((id) => {
-      document.getElementById(id).addEventListener("change", () => {
-        if (document.getElementById("pickup").value.trim() && document.getElementById("dropoff").value.trim()) {
-          calculateQuote();
-        }
-      });
+      calculateQuote();
+      saveDraft();
     });
 
-    function showConfirmation(q, refCode, paid) {
-      document.getElementById("refCodeOut").textContent = refCode;
-      document.getElementById("confPickup").textContent = q.pickup;
-      document.getElementById("confPickupNotes").textContent = q.pickupNotes ? `Instructions: ${q.pickupNotes}` : "Standard collection";
-      document.getElementById("confDropoff").textContent = q.dropoff;
-      document.getElementById("confDropoffNotes").textContent = q.dropoffNotes ? `Instructions: ${q.dropoffNotes}` : "Standard delivery";
-      document.getElementById("confContact").textContent = q.contact || "your provided details";
-      document.getElementById("confPrice").textContent = `${fmtGBP(q.incVat)} (${paid ? "Paid" : "Pending"})`;
-      document.getElementById("confVehicle").textContent = `${q.vehicle}, ~${q.estMiles} mi`;
+    // Urgency Hint Updater
+    document.getElementById('urgencySelect').addEventListener('change', (e) => {
+      document.getElementById('urgencyHint').textContent = URGENCY_HINTS[e.target.value] || '';
+      saveDraft();
+    });
 
-      const waSummary = encodeURIComponent(
-        `Hi Oclex, my booking ref is ${refCode} (${q.vehicle}, ${q.pickup} -> ${q.dropoff}, ${fmtGBP(q.incVat)} inc. VAT).`
-      );
-      document.getElementById("sendConfirmationWaLink").href = `https://wa.me/${WHATSAPP_NUMBER}?text=${waSummary}`;
+    // Modal Controls
+    function openTermsModal() {
+      document.getElementById('termsModal').classList.remove('hidden');
+    }
+    function closeTermsModal() {
+      document.getElementById('termsModal').classList.add('hidden');
+    }
+    function acceptTermsAndClose() {
+      document.getElementById('termsCheckbox').checked = true;
+      closeTermsModal();
+    }
+    document.getElementById('openTermsBtn').addEventListener('click', openTermsModal);
 
-      document.getElementById("bookingFormView").classList.add("hidden");
-      document.getElementById("bookingSuccessView").classList.remove("hidden");
-      document.getElementById("bookingSuccessView").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    // Save / Restore Draft Form (Preserves data on Stripe back/cancel)
+    function saveDraft() {
+      const draft = {
+        pickup: state.pickup,
+        dropoff: state.dropoff,
+        vehicleId: state.vehicleId,
+        urgency: document.getElementById('urgencySelect').value,
+        parcelDetails: document.getElementById('parcelDetails').value,
+        bookingNotes: document.getElementById('bookingNotes').value,
+        customerName: document.getElementById('customerName').value,
+        customerContact: document.getElementById('customerContact').value
+      };
+      try { localStorage.setItem(DRAFT_KEY, JSON.stringify(draft)); } catch (e) {}
     }
 
-    document.getElementById("bookBtn").addEventListener("click", async () => {
-      const q = await calculateQuote();
-      if (!q) return;
-
-      const statusEl = document.getElementById("statusMsg");
-      const refCode = "OCX-" + Math.floor(1000 + Math.random() * 9000);
-      localStorage.setItem(`oclex_booking_${refCode}`, JSON.stringify(q));
-
-      statusEl.textContent = "Redirecting to secure Stripe payment...";
+    function restoreDraft() {
       try {
-        const res = await fetch("/api/create-checkout-session", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            refCode,
-            amountIncVat: q.incVat,
-            vehicle: q.vehicle,
-            pickup: q.pickup,
-            dropoff: q.dropoff,
-            pickupNotes: q.pickupNotes,
-            dropoffNotes: q.dropoffNotes,
-            contact: q.contact
-          })
+        const raw = localStorage.getItem(DRAFT_KEY);
+        if (!raw) return;
+        const d = JSON.parse(raw);
+        if (d.vehicleId) state.vehicleId = d.vehicleId;
+        if (d.pickup) applyLocation('pickup', d.pickup);
+        if (d.dropoff) applyLocation('dropoff', d.dropoff);
+        if (d.urgency) {
+          document.getElementById('urgencySelect').value = d.urgency;
+          document.getElementById('urgencyHint').textContent = URGENCY_HINTS[d.urgency] || '';
+        }
+        if (d.parcelDetails) document.getElementById('parcelDetails').value = d.parcelDetails;
+        if (d.bookingNotes) document.getElementById('bookingNotes').value = d.bookingNotes;
+        if (d.customerName) document.getElementById('customerName').value = d.customerName;
+        if (d.customerContact) document.getElementById('customerContact').value = d.customerContact;
+      } catch (e) {}
+    }
+
+    ['parcelDetails', 'bookingNotes', 'customerName', 'customerContact'].forEach(id => {
+      document.getElementById(id).addEventListener('input', saveDraft);
+    });
+
+    // Show Validation Error
+    function showError(msg) {
+      const el = document.getElementById('formError');
+      el.textContent = msg;
+      el.classList.remove('hidden');
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function clearError() {
+      document.getElementById('formError').classList.add('hidden');
+    }
+
+    // Form Submission -> Stripe Checkout
+    document.getElementById('bookingForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearError();
+
+      // Resolve postcodes if user typed without clicking dropdown
+      if (!state.pickup && document.getElementById('pickupInput').value.trim()) {
+        const res = await lookupPostcode(document.getElementById('pickupInput').value);
+        if (res.length) applyLocation('pickup', res[0]);
+      }
+      if (!state.dropoff && document.getElementById('dropoffInput').value.trim()) {
+        const res = await lookupPostcode(document.getElementById('dropoffInput').value);
+        if (res.length) applyLocation('dropoff', res[0]);
+      }
+
+      if (!state.pickup) return showError('Please select a valid UK collection postcode from the list.');
+      if (!state.dropoff) return showError('Please select a valid UK delivery postcode from the list.');
+      if (!calculateQuote() || state.totalPrice <= 0) return showError('Unable to calculate route price. Please check both postcodes.');
+
+      const parcelDetails = document.getElementById('parcelDetails').value.trim();
+      const bookingNotes = document.getElementById('bookingNotes').value.trim();
+      const customerName = document.getElementById('customerName').value.trim();
+      const customerContact = document.getElementById('customerContact').value.trim();
+      const urgency = document.getElementById('urgencySelect').value;
+      const termsAccepted = document.getElementById('termsCheckbox').checked;
+
+      if (!parcelDetails) return showError('Please enter a brief parcel description and approximate weight or size.');
+      if (!customerName) return showError('Please enter your full name.');
+      if (!customerContact || customerContact.length < 5) return showError('Please enter a valid mobile number or email address.');
+      if (!termsAccepted) return showError('Please tick the box to accept the Terms & Conditions before booking.');
+
+      const vehicle = VEHICLES.find(v => v.id === state.vehicleId) || VEHICLES[1];
+      const ref = 'OCX-' + Math.floor(1000 + Math.random() * 9000);
+
+      const bookingRecord = {
+        ref,
+        pickup: state.pickup.label,
+        pickupPostcode: state.pickup.postcode,
+        dropoff: state.dropoff.label,
+        dropoffPostcode: state.dropoff.postcode,
+        vehicleName: vehicle.name,
+        miles: state.miles,
+        urgency,
+        urgencyLabel: URGENCY_LABELS[urgency] || urgency,
+        parcelDetails,
+        bookingNotes,
+        customerName,
+        customerContact,
+        totalPrice: state.totalPrice
+      };
+
+      try {
+        localStorage.setItem(STORAGE_KEY_PREFIX + ref, JSON.stringify(bookingRecord));
+        saveDraft();
+      } catch (err) {}
+
+      const btn = document.getElementById('bookBtn');
+      const btnText = document.getElementById('bookBtnText');
+      btn.disabled = true;
+      btnText.textContent = 'Connecting to Stripe...';
+
+      try {
+        const response = await fetch('/api/create-checkout-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(bookingRecord)
         });
-        const data = await res.json();
-        if (!res.ok || !data.url) throw new Error(data.error || "Could not start payment");
+
+        const data = await response.json();
+        if (!response.ok || !data.url) {
+          throw new Error(data.error || 'Could not start payment session.');
+        }
+
         window.location.href = data.url;
       } catch (err) {
-        statusEl.textContent = err.message;
+        btn.disabled = false;
+        btnText.textContent = 'Book Delivery';
+        showError(err.message || 'Payment setup failed. Please try again or call 0161 545 45 40.');
       }
     });
 
-    // Restore confirmation screen when redirected back after Stripe payment
-    (function checkStripeReturn() {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get("paid") === "1") {
-        const ref = params.get("ref") || "OCX-0000";
-        const saved = JSON.parse(localStorage.getItem(`oclex_booking_${ref}`) || "null");
-        if (saved) {
-          showConfirmation(saved, ref, true);
-        } else {
-          document.getElementById("refCodeOut").textContent = ref;
-          document.getElementById("bookingFormView").classList.add("hidden");
-          document.getElementById("bookingSuccessView").classList.remove("hidden");
+    // Confirmation Screen Renderer
+    function showConfirmation(ref) {
+      let record = null;
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY_PREFIX + ref);
+        if (raw) record = JSON.parse(raw);
+      } catch (e) {}
+
+      document.getElementById('bookingView').classList.add('hidden');
+      document.getElementById('cancelledBanner').classList.add('hidden');
+      document.getElementById('confirmationView').classList.remove('hidden');
+
+      document.getElementById('confRef').textContent = ref;
+
+      if (record) {
+        document.getElementById('confPickup').textContent = record.pickup;
+        document.getElementById('confDropoff').textContent = record.dropoff;
+        document.getElementById('confCustomer').textContent = `${record.customerName} (${record.customerContact})`;
+        document.getElementById('confVehicleTiming').textContent = `${record.vehicleName} (~${record.miles} mi) · ${record.urgencyLabel}`;
+        document.getElementById('confParcel').textContent = record.parcelDetails;
+        if (record.bookingNotes) {
+          document.getElementById('confNotes').textContent = record.bookingNotes;
+          document.getElementById('confNotesRow').classList.remove('hidden');
         }
-      } else if (params.get("cancelled") === "1") {
-        document.getElementById("statusMsg").textContent = "Payment was cancelled. You can adjust your quote or try again.";
-      }
-    })();
+        document.getElementById('confTotal').textContent = `£${Number(record.totalPrice).toFixed(2)} Total price`;
 
-    // Independent WHATSAPP action -> opens WhatsApp chat directly
-    document.getElementById("whatsappBtn").addEventListener("click", async () => {
-      const q = await calculateQuote();
-      if (!q) return;
-      const lines = [
-        `Hi Oclex, I'd like to arrange a same-day delivery:`,
-        `• Vehicle: ${q.vehicle}`,
-        `• Pickup: ${q.pickup}${q.pickupNotes ? ` (${q.pickupNotes})` : ""}`,
-        `• Drop-off: ${q.dropoff}${q.dropoffNotes ? ` (${q.dropoffNotes})` : ""}`,
-        `• Est. Distance & Price: ~${q.estMiles} mi | ${fmtGBP(q.incVat)} inc. VAT`,
-        q.contact ? `• My Contact: ${q.contact}` : null
-      ].filter(Boolean).join("%0A");
-      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${lines}`, "_blank");
+        const waMsg = encodeURIComponent(
+          `Hi OCLEX Dispatch, I've just booked delivery ${ref} (${record.pickupPostcode} to ${record.dropoffPostcode}, ${record.vehicleName}, ${record.urgencyLabel}). Please send driver updates here.`
+        );
+        document.getElementById('whatsappShareBtn').href = `https://wa.me/447940000420?text=${waMsg}`;
+      }
+    }
+
+    document.getElementById('newBookingBtn').addEventListener('click', () => {
+      try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
+      window.location.href = '/';
     });
 
+    // Boot
+    setupPostcodeField('pickup');
+    setupPostcodeField('dropoff');
+    restoreDraft();
     renderVehicles();
-    setupAddressAutocomplete("pickup", "pickupSuggestions", "pickup");
-    setupAddressAutocomplete("dropoff", "dropoffSuggestions", "dropoff");
+    calculateQuote();
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('paid') === '1' && params.get('ref')) {
+      showConfirmation(params.get('ref'));
+    } else if (params.get('cancelled') === '1') {
+      document.getElementById('cancelledBanner').classList.remove('hidden');
+    }
   </script>
 </body>
 </html>
