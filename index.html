@@ -556,7 +556,7 @@
         geocoder.geocode({ address, region: "GB" }, (results, status) => {
           if (status !== "OK" || !Array.isArray(results) || !results.length) {
             reject(new Error(`Could not find UK address: "${address}"`));
-            return;
+            return; 
           }
           const loc = results[0].geometry.location;
           const pcComp = (results[0].address_components || []).find((c) => c.types.includes("postal_code"));
