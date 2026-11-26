@@ -428,57 +428,59 @@
       });
     }
 
-    function fetchGooglePredictions(query) {
-      return new Promise((resolve) => {
-        if (!window.google || !window.google.maps || !window.google.maps.places) {
-          resolve([]);
-          return;
-        }
-        const service = new google.maps.places.AutocompleteService();
-        service.getPlacePredictions(
-          {
-            input: query.trim(),
-            componentRestrictions: { country: "gb" }
-          },
-          (predictions, status) => {
-            if (status !== google.maps.places.PlacesServiceStatus.OK || !Array.isArray(predictions)) {
-              resolve([]);
-              return;
-            }
-            resolve(predictions.slice(0, 6));
-          }
-        );
-      });
+
+    async function loadPlacesLibrary() {
+      if (window.google?.maps?.places?.AutocompleteSuggestion && window.google?.maps?.places?.Place) {
+        return window.google.maps.places;
+      }
+      if (window.google?.maps?.importLibrary) {
+        return await window.google.maps.importLibrary("places");
+      }
+      throw new Error("Google Maps is still loading. Please try again in a second.");
     }
 
-    function getGooglePlaceDetails(placeId, fallbackText) {
-      return new Promise((resolve, reject) => {
-        if (!window.google || !window.google.maps || !window.google.maps.places) {
-          reject(new Error("Google Maps is still loading. Please try again in a second."));
-          return;
+    async function fetchGooglePredictions(query) {
+      try {
+        const placesLib = await loadPlacesLibrary();
+        const { AutocompleteSuggestion } = placesLib;
+        if (!AutocompleteSuggestion?.fetchAutocompleteSuggestions) {
+          console.warn("AutocompleteSuggestion API not available.");
+          return [];
         }
-        const dummyDiv = document.createElement("div");
-        const placesService = new google.maps.places.PlacesService(dummyDiv);
-        placesService.getDetails(
-          {
-            placeId,
-            fields: ["formatted_address", "geometry", "address_components"]
-          },
-          (place, status) => {
-            if (status !== google.maps.places.PlacesServiceStatus.OK || !place || !place.geometry || !place.geometry.location) {
-              reject(new Error(`Could not find UK address: "${fallbackText}"`));
-              return;
-            }
-            const pcComp = (place.address_components || []).find((c) => c.types.includes("postal_code"));
-            resolve({
-              formattedAddress: place.formatted_address || fallbackText,
-              lat: place.geometry.location.lat(),
-              lon: place.geometry.location.lng(),
-              postcode: pcComp ? pcComp.long_name : ""
-            });
-          }
-        );
+        const response = await AutocompleteSuggestion.fetchAutocompleteSuggestions({
+          input: query.trim(),
+          includedRegionCodes: ["gb"]
+        });
+        const suggestions = response?.suggestions || [];
+        return suggestions
+          .map((s) => s.placePrediction)
+          .filter(Boolean)
+          .slice(0, 6);
+      } catch (err) {
+        console.warn("Google AutocompleteSuggestion error:", err);
+        return [];
+      }
+    }
+
+    async function getGooglePlaceDetails(placePrediction, fallbackText) {
+      const placesLib = await loadPlacesLibrary();
+      const { Place } = placesLib;
+      if (!placePrediction?.toPlace || !Place) {
+        throw new Error(`Could not find UK address: "${fallbackText}"`);
+      }
+      const place = placePrediction.toPlace();
+      await place.fetchFields({
+        fields: ["formattedAddress", "location", "postalCode"]
       });
+      if (!place.location) {
+        throw new Error(`Could not find UK address: "${fallbackText}"`);
+      }
+      return {
+        formattedAddress: place.formattedAddress || fallbackText,
+        lat: place.location.lat(),
+        lon: place.location.lng(),
+        postcode: place.postalCode || ""
+      };
     }
 
     async function fetchSuggestions(query) {
@@ -486,10 +488,10 @@
       if (q.length < 2) return [];
       const preds = await fetchGooglePredictions(q);
       return preds.map((p) => ({
-        placeId: p.place_id,
-        label: p.description,
-        sublabel: p.structured_formatting?.secondary_text || "UK address"
-      }));
+        prediction: p,
+        label: p.text?.text || p.description || "",
+        sublabel: p.secondaryText?.text || "UK address"
+      })).filter((item) => item.label);
     }
 
     function setupAddressAutocomplete(inputId, boxId, cacheKey) {
@@ -522,7 +524,7 @@
               input.value = item.label;
               box.classList.add("hidden");
               try {
-                const details = await getGooglePlaceDetails(item.placeId, item.label);
+                const details = await getGooglePlaceDetails(item.prediction, item.label);
                 input.value = details.formattedAddress;
                 coordsCache[cacheKey] = {
                   lat: details.lat,
@@ -546,40 +548,16 @@
       });
     }
     
-    function geocodeUKAddress(address) {
-      return new Promise((resolve, reject) => {
-        if (!window.google || !window.google.maps || !window.google.maps.Geocoder) {
-          reject(new Error("Google Maps is still loading. Please try again in a second."));
-          return;
-        }
-        const geocoder = new google.maps.Geocoder();
-        geocoder.geocode({ address, region: "GB" }, (results, status) => {
-          if (status !== "OK" || !Array.isArray(results) || !results.length) {
-            reject(new Error(`Could not find UK address: "${address}"`));
-            return; 
-          }
-          const loc = results[0].geometry.location;
-          const pcComp = (results[0].address_components || []).find((c) => c.types.includes("postal_code"));
-          resolve({
-            lat: loc.lat(),
-            lon: loc.lng(),
-            postcode: pcComp ? pcComp.long_name : ""
-          });
-        });
-      });
-    }
-
+    
     async function resolveCoords(text, cacheKey) {
       if (coordsCache[cacheKey]) return coordsCache[cacheKey];
       const matches = await fetchSuggestions(text);
       if (matches.length) {
-        const details = await getGooglePlaceDetails(matches[0].placeId, text);
+        const details = await getGooglePlaceDetails(matches[0].prediction, text);
         coordsCache[cacheKey] = { lat: details.lat, lon: details.lon, postcode: details.postcode };
         return coordsCache[cacheKey];
       }
-      const geocoded = await geocodeUKAddress(text);
-      coordsCache[cacheKey] = geocoded;
-      return coordsCache[cacheKey];
+      throw new Error(`Could not find UK address: "${text}"`);
     }
 
     function distanceMiles(a, b) {
