@@ -402,8 +402,8 @@
         }`;
         card.innerHTML = `
           <div>
-            <div class="aspect-[16/10] w-full rounded-lg bg-zinc-100 overflow-hidden mb-2.5 flex items-center justify-center text-xs text-zinc-400">
-              <img src="${v.image}" alt="${v.name}" class="w-full h-full object-cover"
+            <div class="aspect-[16/10] w-full rounded-lg bg-[#F4F4F5] overflow-hidden mb-2.5 flex items-center justify-center text-xs text-zinc-400">
+              <img src="${v.image}" alt="${v.name}" class="w-full h-full object-contain p-1.5"
                    onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
               <span style="display:none;" class="px-2 text-center">${v.name} photo<br>(${v.image})</span>
             </div>
