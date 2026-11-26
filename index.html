@@ -428,35 +428,68 @@
       });
     }
 
+    function fetchGooglePredictions(query) {
+      return new Promise((resolve) => {
+        if (!window.google || !window.google.maps || !window.google.maps.places) {
+          resolve([]);
+          return;
+        }
+        const service = new google.maps.places.AutocompleteService();
+        service.getPlacePredictions(
+          {
+            input: query.trim(),
+            componentRestrictions: { country: "gb" }
+          },
+          (predictions, status) => {
+            if (status !== google.maps.places.PlacesServiceStatus.OK || !Array.isArray(predictions)) {
+              resolve([]);
+              return;
+            }
+            resolve(predictions.slice(0, 6));
+          }
+        );
+      });
+    }
+
+    function getGooglePlaceDetails(placeId, fallbackText) {
+      return new Promise((resolve, reject) => {
+        if (!window.google || !window.google.maps || !window.google.maps.places) {
+          reject(new Error("Google Maps is still loading. Please try again in a second."));
+          return;
+        }
+        const dummyDiv = document.createElement("div");
+        const placesService = new google.maps.places.PlacesService(dummyDiv);
+        placesService.getDetails(
+          {
+            placeId,
+            fields: ["formatted_address", "geometry", "address_components"]
+          },
+          (place, status) => {
+            if (status !== google.maps.places.PlacesServiceStatus.OK || !place || !place.geometry || !place.geometry.location) {
+              reject(new Error(`Could not find UK address: "${fallbackText}"`));
+              return;
+            }
+            const pcComp = (place.address_components || []).find((c) => c.types.includes("postal_code"));
+            resolve({
+              formattedAddress: place.formatted_address || fallbackText,
+              lat: place.geometry.location.lat(),
+              lon: place.geometry.location.lng(),
+              postcode: pcComp ? pcComp.long_name : ""
+            });
+          }
+        );
+      });
+    }
+
     async function fetchSuggestions(query) {
       const q = query.trim();
       if (q.length < 2) return [];
-      const compact = q.replace(/\s+/g, "");
-      const looksLikeFullPostcode = /^[A-Z]{1,2}\d[A-Z\d]?\d[A-Z]{2}$/i.test(compact);
-
-      if (looksLikeFullPostcode) {
-        const res = await fetch(`https://api.postcodes.io/postcodes/${encodeURIComponent(compact)}`);
-        if (!res.ok) return [];
-        const data = await res.json();
-        const r = data.result;
-        const areaLine = [r.parish, r.admin_ward, r.admin_district].filter(Boolean).join(", ");
-        return [{
-          label: `${areaLine || r.postcode} (${r.postcode})`,
-          value: `${r.postcode}${areaLine ? " - " + areaLine : ""}`,
-          postcode: r.postcode,
-          lat: r.latitude,
-          lon: r.longitude
-        }];
-      }
-
-      const res = await fetch(`https://api.postcodes.io/postcodes?q=${encodeURIComponent(q)}&limit=6`);
-      if (!res.ok) return [];
-      const data = await res.json();
-      if (!Array.isArray(data.result)) return [];
-      return data.result.map((r) => {
-        const parts = [r.parish, r.admin_ward, r.admin_district, r.postcode].filter(Boolean);
-        return { label: parts.join(", "), value: parts.join(", "), postcode: r.postcode, lat: r.latitude, lon: r.longitude };
-      });
+      const preds = await fetchGooglePredictions(q);
+      return preds.map((p) => ({
+        placeId: p.place_id,
+        label: p.description,
+        sublabel: p.structured_formatting?.secondary_text || "UK address"
+      }));
     }
 
     function setupAddressAutocomplete(inputId, boxId, cacheKey) {
@@ -484,13 +517,23 @@
             const btn = document.createElement("button");
             btn.type = "button";
             btn.className = "w-full text-left px-3.5 py-2.5 text-sm hover:bg-blue-50 transition";
-            btn.innerHTML = `<div class="font-medium text-zinc-900">${item.label}</div><div class="text-[11px] text-[#0B4FBE]">Tap to select</div>`;
-            btn.addEventListener("click", () => {
-              input.value = item.value;
-              coordsCache[cacheKey] = { lat: item.lat, lon: item.lon, postcode: item.postcode };
+            btn.innerHTML = `<div class="font-medium text-zinc-900">${item.label}</div><div class="text-[11px] text-[#0B4FBE]">Tap to select full address</div>`;
+            btn.addEventListener("click", async () => {
+              input.value = item.label;
               box.classList.add("hidden");
-              saveDraft();
-              if (coordsCache.pickup && coordsCache.dropoff) calculateQuote();
+              try {
+                const details = await getGooglePlaceDetails(item.placeId, item.label);
+                input.value = details.formattedAddress;
+                coordsCache[cacheKey] = {
+                  lat: details.lat,
+                  lon: details.lon,
+                  postcode: details.postcode
+                };
+                saveDraft();
+                if (coordsCache.pickup && coordsCache.dropoff) calculateQuote();
+              } catch (err) {
+                document.getElementById("statusMsg").textContent = err.message;
+              }
             });
             box.appendChild(btn);
           });
@@ -502,12 +545,40 @@
         if (!input.contains(e.target) && !box.contains(e.target)) box.classList.add("hidden");
       });
     }
+    
+    function geocodeUKAddress(address) {
+      return new Promise((resolve, reject) => {
+        if (!window.google || !window.google.maps || !window.google.maps.Geocoder) {
+          reject(new Error("Google Maps is still loading. Please try again in a second."));
+          return;
+        }
+        const geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ address, region: "GB" }, (results, status) => {
+          if (status !== "OK" || !Array.isArray(results) || !results.length) {
+            reject(new Error(`Could not find UK address: "${address}"`));
+            return;
+          }
+          const loc = results[0].geometry.location;
+          const pcComp = (results[0].address_components || []).find((c) => c.types.includes("postal_code"));
+          resolve({
+            lat: loc.lat(),
+            lon: loc.lng(),
+            postcode: pcComp ? pcComp.long_name : ""
+          });
+        });
+      });
+    }
 
     async function resolveCoords(text, cacheKey) {
       if (coordsCache[cacheKey]) return coordsCache[cacheKey];
       const matches = await fetchSuggestions(text);
-      if (!matches.length) throw new Error(`Could not find UK location: "${text}"`);
-      coordsCache[cacheKey] = { lat: matches[0].lat, lon: matches[0].lon, postcode: matches[0].postcode };
+      if (matches.length) {
+        const details = await getGooglePlaceDetails(matches[0].placeId, text);
+        coordsCache[cacheKey] = { lat: details.lat, lon: details.lon, postcode: details.postcode };
+        return coordsCache[cacheKey];
+      }
+      const geocoded = await geocodeUKAddress(text);
+      coordsCache[cacheKey] = geocoded;
       return coordsCache[cacheKey];
     }
 
@@ -775,5 +846,6 @@
       }
     })();
   </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxCb3_ekuLzBwuKUaXX75MKW9QGIf5jHM&libraries=places&region=GB" async defer></script>
 </body>
 </html>
