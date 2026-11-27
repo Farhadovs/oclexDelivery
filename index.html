@@ -465,13 +465,6 @@
     async function getGooglePlaceDetails(placePrediction, fallbackText) {
       const placesLib = await loadPlacesLibrary();
       const { Place } = placesLib;
-      if (!placePrediction?.toPlace || !Place) {
-        throw new Error(`Could not find UK address: "${fallbackText}"`);
-      }
-      const place = placePrediction.toPlace();
-      async function getGooglePlaceDetails(placePrediction, fallbackText) {
-      const placesLib = await loadPlacesLibrary(); 
-      const { Place } = placesLib;
 
       if (!placePrediction?.toPlace || !Place) {
         throw new Error(`Could not find UK address: "${fallbackText}"`);
@@ -498,7 +491,6 @@
         lon: place.location.lng(),
         postcode
       };
-    }
     }
 
     async function fetchSuggestions(query) {
