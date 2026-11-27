@@ -469,18 +469,36 @@
         throw new Error(`Could not find UK address: "${fallbackText}"`);
       }
       const place = placePrediction.toPlace();
+      async function getGooglePlaceDetails(placePrediction, fallbackText) {
+      const placesLib = await loadPlacesLibrary();
+      const { Place } = placesLib;
+
+      if (!placePrediction?.toPlace || !Place) {
+        throw new Error(`Could not find UK address: "${fallbackText}"`);
+      }
+
+      const place = placePrediction.toPlace();
+
       await place.fetchFields({
-        fields: ["formattedAddress", "location", "postalCode"]
+        fields: ["formattedAddress", "location", "addressComponents"]
       });
+
       if (!place.location) {
         throw new Error(`Could not find UK address: "${fallbackText}"`);
       }
+
+      const postcode =
+        place.addressComponents
+          ?.find(component => component.types.includes("postal_code"))
+          ?.longText || "";
+
       return {
         formattedAddress: place.formattedAddress || fallbackText,
         lat: place.location.lat(),
         lon: place.location.lng(),
-        postcode: place.postalCode || ""
+        postcode
       };
+    }
     }
 
     async function fetchSuggestions(query) {
