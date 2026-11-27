@@ -568,7 +568,7 @@
       const h = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLon / 2) ** 2;
       return 2 * R * Math.asin(Math.sqrt(h));
     }
-
+ 
     const fmtGBP = (n) => `£${n.toFixed(2)}`;
 
     async function calculateQuote() {
@@ -824,6 +824,6 @@
       }
     })();
   </script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxCb3_ekuLzBwuKUaXX75MKW9QGIf5jHM&libraries=places&region=GB" async defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCu3lGD5AAGUirPUw5U1bahqf_j8psDfQ&libraries=places&region=GB" async defer></script>
 </body>
 </html>
