@@ -470,7 +470,7 @@
       }
       const place = placePrediction.toPlace();
       async function getGooglePlaceDetails(placePrediction, fallbackText) {
-      const placesLib = await loadPlacesLibrary();
+      const placesLib = await loadPlacesLibrary(); 
       const { Place } = placesLib;
 
       if (!placePrediction?.toPlace || !Place) {
