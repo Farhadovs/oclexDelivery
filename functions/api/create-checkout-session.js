@@ -28,6 +28,7 @@ export async function onRequestPost(context) {
       bookingNotes,
       customerName,
       customerContact,
+      deliveryPhone,
       totalPrice
     } = body;
 
@@ -69,6 +70,7 @@ export async function onRequestPost(context) {
       booking_ref: ref,
       customer_name: customerName.slice(0, 200),
       customer_contact: customerContact.slice(0, 200),
+      delivery_contact_phone: (deliveryPhone || customerContact).slice(0, 100),
       pickup_postcode: pickupPostcode || '',
       pickup_address: pickup.slice(0, 250),
       dropoff_postcode: dropoffPostcode || '',
